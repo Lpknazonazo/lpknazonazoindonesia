@@ -4,19 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Tekipaki Raya</title>
-
-    <!-- Font Awesome (WAJIB supaya icon tidak error) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <!-- JS PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <!-- CSS (kalau ada) -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
 <!-- Navbar -->
 <nav class="navbar">
     <div class="nav-container">
@@ -51,29 +44,26 @@
             <!-- DATA PRIBADI -->
             <div class="form-section">
                 <h3><i class="fas fa-user"></i> Data Pribadi</h3>
-
                 <div class="form-group">
                     <label>Nama lengkap *</label>
-                    <input type="text" id="namaRomaji" required>
+                    <input type="text" id="namaRomaji" name="namaRomaji" required>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label>Jenis Kelamin *</label>
-                        <select id="jenisKelamin" required>
+                        <select id="jenisKelamin" name="jenisKelamin" required>
                             <option value="">Pilih</option>
-                            <option>Laki-laki</option>
-                            <option>Perempuan</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label>Status Menikah</label>
-                        <select id="statusMenikah">
+                        <select id="statusMenikah" name="statusMenikah">
                             <option value="">Pilih</option>
-                            <option>Belum Menikah</option>
-                            <option>Menikah</option>
-                            <option>Cerai</option>
+                            <option value="Belum Menikah">Belum Menikah</option>
+                            <option value="Menikah">Menikah</option>
+                            <option value="Cerai">Cerai</option>
                         </select>
                     </div>
                 </div>
@@ -82,81 +72,159 @@
             <!-- ALAMAT -->
             <div class="form-section">
                 <h3><i class="fas fa-map-marker-alt"></i> Alamat</h3>
-
                 <div class="form-group">
                     <label>Tempat Lahir *</label>
-                    <input type="text" id="tempatLahir" required>
+                    <input type="text" id="tempatLahir" name="tempatLahir" required>
                 </div>
-
                 <div class="form-group">
                     <label>Alamat Lengkap *</label>
-                    <textarea id="alamatLengkap" rows="3" required></textarea>
+                    <textarea id="alamatLengkap" name="alamatLengkap" rows="3" required></textarea>
                 </div>
             </div>
 
-            <!-- KELUARGA (FIX DUPLIKAT) -->
+            <!-- KELUARGA -->
             <div class="form-section">
                 <h3><i class="fas fa-users"></i> Data Keluarga</h3>
-
                 <div id="keluargaContainer">
-
-                    <div class="keluarga-item">
-                        <h4>Ayah</h4>
-                        <input type="hidden" name="keluargaHubungan[]" value="Ayah">
-                        <input type="text" name="keluargaNama[]" placeholder="Nama">
-                    </div>
-
-                    <div class="keluarga-item">
-                        <h4>Ibu</h4>
-                        <input type="hidden" name="keluargaHubungan[]" value="Ibu">
-                        <input type="text" name="keluargaNama[]" placeholder="Nama">
-                    </div>
-
-                    <div class="keluarga-item">
-                        <h4>Kakak / Adik</h4>
-                        <select name="keluargaHubungan[]">
-                            <option>Kakak</option>
-                            <option>Adik</option>
-                        </select>
-                        <input type="text" name="keluargaNama[]" placeholder="Nama">
-                    </div>
-
+                    <!-- Keluarga default akan ditambahkan via JS -->
                 </div>
-
-                <button type="button" id="tambahKeluarga" class="btn-add">
-                    ➕ Tambah Keluarga
-                </button>
+                <button type="button" id="tambahKeluarga" class="btn-add">➕ Tambah Keluarga</button>
             </div>
 
             <!-- FOTO -->
             <div class="form-section">
                 <h3><i class="fas fa-camera"></i> Foto</h3>
-                <input type="file" id="foto" accept="image/*" required>
+                <input type="file" id="foto" name="foto" accept="image/*" required>
                 <div id="fotoPreview"></div>
             </div>
 
             <!-- BUTTON -->
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
-                    Generate PDF
+                    <i class="fas fa-download"></i> Generate PDF
                 </button>
-
                 <button type="button" id="clearForm" class="btn-clear">
-                    Reset
+                    <i class="fas fa-refresh"></i> Reset
                 </button>
             </div>
-
         </form>
 
-        <div id="successMessage" style="display:none;">
-            Berhasil!
+        <div id="successMessage" class="success-message" style="display:none;">
+            <i class="fas fa-check-circle"></i> PDF berhasil diunduh!
         </div>
-
     </div>
 </section>
 
-<!-- SCRIPT HARUS DI PALING BAWAH -->
-<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi keluarga default
+    const keluargaContainer = document.getElementById('keluargaContainer');
+    const defaultKeluarga = [
+        { hubungan: 'Ayah', nama: '' },
+        { hubungan: 'Ibu', nama: '' }
+    ];
+    
+    defaultKeluarga.forEach((item, index) => {
+        tambahKeluargaItem(item.hubungan, item.nama, index);
+    });
 
+    // Preview foto
+    document.getElementById('foto').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('fotoPreview');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="foto-preview">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('fotoPreview').innerHTML = '';
+        }
+    });
+
+    // Tambah keluarga
+    document.getElementById('tambahKeluarga').addEventListener('click', function() {
+        const hubungan = prompt('Hubungan keluarga (Kakak/Adik/Lainnya):') || 'Lainnya';
+        tambahKeluargaItem(hubungan, '');
+    });
+
+    // Fungsi tambah item keluarga
+    function tambahKeluargaItem(hubungan, nama, index = null) {
+        const div = document.createElement('div');
+        div.className = 'keluarga-item';
+        div.innerHTML = `
+            <h4>${hubungan}</h4>
+            <input type="hidden" name="keluargaHubungan[]" value="${hubungan}">
+            <input type="text" name="keluargaNama[]" placeholder="Nama ${hubungan}" value="${nama}">
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()">❌</button>
+        `;
+        keluargaContainer.appendChild(div);
+    }
+
+    // Submit form - Generate PDF
+    document.getElementById('jepangForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Ambil semua data
+        const formData = new FormData(this);
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+            if (key === 'keluargaHubungan[]' || key === 'keluargaNama[]') {
+                if (!data[key]) data[key] = [];
+                data[key].push(value);
+            } else {
+                data[key] = value;
+            }
+        }
+
+        // Generate PDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        // Header
+        doc.setFontSize(20);
+        doc.text('FORMULIR PENDAFTARAN JEPANG', 20, 20);
+        
+        // Data pribadi
+        doc.setFontSize(12);
+        let y = 40;
+        doc.text(`Nama: ${data.namaRomaji || ''}`, 20, y); y += 10;
+        doc.text(`Jenis Kelamin: ${data.jenisKelamin || ''}`, 20, y); y += 10;
+        doc.text(`Status: ${data.statusMenikah || ''}`, 20, y); y += 10;
+        doc.text(`Tempat Lahir: ${data.tempatLahir || ''}`, 20, y); y += 10;
+        doc.text(`Alamat: ${data.alamatLengkap || ''}`, 20, y); y += 15;
+        
+        // Keluarga
+        doc.text('DATA KELUARGA:', 20, y); y += 10;
+        if (data.keluargaHubungan) {
+            for (let i = 0; i < data.keluargaHubungan.length; i++) {
+                doc.text(`${data.keluargaHubungan[i]}: ${data.keluargaNama[i] || ''}`, 30, y);
+                y += 8;
+            }
+        }
+        
+        // Download PDF
+        doc.save('pendaftaran-jepang.pdf');
+        
+        // Show success
+        document.getElementById('successMessage').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('successMessage').style.display = 'none';
+        }, 3000);
+    });
+
+    // Reset form
+    document.getElementById('clearForm').addEventListener('click', function() {
+        document.getElementById('jepangForm').reset();
+        document.getElementById('fotoPreview').innerHTML = '';
+        document.getElementById('keluargaContainer').innerHTML = '';
+        // Tambah ulang default keluarga
+        tambahKeluargaItem('Ayah', '');
+        tambahKeluargaItem('Ibu', '');
+    });
+});
+</script>
 </body>
 </html>
