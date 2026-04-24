@@ -4,19 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Tekipaki Raya</title>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- PDF Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-
 <!-- Navbar -->
 <nav class="navbar">
     <div class="nav-container">
@@ -24,10 +16,8 @@
             <i class="fas fa-graduation-cap"></i>
             Prime Tekipaki Raya
         </div>
-
         <ul class="nav-menu">
             <li><a href="#home" class="nav-link active">Home</a></li>
-            <li><a href="#gallery" class="nav-link">Galeri</a></li>
             <li><a href="#pendaftaran" class="nav-link">Pendaftaran</a></li>
             <li><a href="#contact" class="nav-link">Kontak</a></li>
         </ul>
@@ -46,86 +36,95 @@
 <!-- Pendaftaran -->
 <section id="pendaftaran" class="pendaftaran">
     <div class="container">
-        <h2>Pendaftaran Siswa Baru</h2>
+        <h2><i class="fas fa-user-plus"></i> Pendaftaran Siswa Baru</h2>
+        <p>Isi form di bawah ini untuk mendaftar kursus</p>
+        
+        <form id="pendaftaranForm" class="form-pendaftaran">
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Nama Lengkap *</label>
+                <input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
+            </div>
 
-        <form id="pendaftaranForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email *</label>
+                    <input type="email" id="email" placeholder="example@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> No. HP *</label>
+                    <input type="tel" id="noHp" placeholder="08123456789" required>
+                </div>
+            </div>
 
-            <input type="text" id="nama" placeholder="Nama Lengkap" required><br><br>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-book"></i> Jenis Kursus *</label>
+                    <select id="jenisKursus" required>
+                        <option value="">Pilih Kursus</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Desain Grafis">Desain Grafis</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> Jadwal *</label>
+                    <select id="jadwal" required>
+                        <option value="">Pilih Jadwal</option>
+                        <option value="Pagi (08:00-10:00)">Pagi (08:00-10:00)</option>
+                        <option value="Siang (13:00-15:00)">Siang (13:00-15:00)</option>
+                        <option value="Sore (16:00-18:00)">Sore (16:00-18:00)</option>
+                    </select>
+                </div>
+            </div>
 
-            <input type="email" id="email" placeholder="Email" required><br><br>
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> Alamat</label>
+                <textarea id="alamat" rows="3" placeholder="Masukkan alamat lengkap"></textarea>
+            </div>
 
-            <input type="text" id="noHp" placeholder="No HP" required><br><br>
+            <!-- UPLOAD FOTO -->
+            <div class="form-group">
+                <label><i class="fas fa-camera"></i> Foto Profil (Opsional)</label>
+                <input type="file" id="foto" accept="image/*" class="file-input">
+                <div id="fotoPreview" class="foto-preview"></div>
+            </div>
 
-            <select id="jenisKursus" required>
-                <option value="">Pilih Kursus</option>
-                <option>Web Development</option>
-                <option>Desain Grafis</option>
-            </select><br><br>
-
-            <select id="jadwal" required>
-                <option value="">Pilih Jadwal</option>
-                <option>Pagi</option>
-                <option>Sore</option>
-            </select><br><br>
-
-            <textarea id="alamat" placeholder="Alamat"></textarea><br><br>
-
-            <button type="submit" class="cta-button">
-                Simpan & Download PDF
-            </button>
-
+            <!-- BUTTONS CENTER -->
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-download"></i> Simpan & Download PDF
+                </button>
+                <button type="button" id="clearForm" class="btn-clear">
+                    <i class="fas fa-trash"></i> Reset Form
+                </button>
+            </div>
         </form>
 
-        <p id="successMessage" style="display:none; color:green;">
-            ✅ Data berhasil di download
-        </p>
-
+        <div id="successMessage" class="success-message" style="display:none;">
+            <i class="fas fa-check-circle"></i>
+            <h3>Data berhasil tersimpan!</h3>
+            <p>Gunakan nomor pendaftaran untuk konfirmasi</p>
+            <a href="#" id="downloadPdf" class="download-link">📄 Download Bukti Pendaftaran PDF</a>
+        </div>
     </div>
 </section>
 
-<script>
-document.getElementById("pendaftaranForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+<!-- Contact -->
+<section id="contact" class="contact">
+    <div class="container">
+        <h2>Hubungi Kami</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-phone"></i> (021) 12345678
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i> info@primetekipaki.com
+            </div>
+        </div>
+    </div>
+</section>
 
-    const nama = document.getElementById("nama").value;
-    const email = document.getElementById("email").value;
-    const noHp = document.getElementById("noHp").value;
-    const kursus = document.getElementById("jenisKursus").value;
-    const jadwal = document.getElementById("jadwal").value;
-    const alamat = document.getElementById("alamat").value;
-
-    const file = document.getElementById("foto").files[0];
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-
-    pdf.setFontSize(16);
-    pdf.text("DATA PENDAFTARAN", 20, 20);
-
-    pdf.setFontSize(12);
-    pdf.text("Nama: " + nama, 20, 40);
-    pdf.text("Email: " + email, 20, 50);
-    pdf.text("No HP: " + noHp, 20, 60);
-    pdf.text("Kursus: " + kursus, 20, 70);
-    pdf.text("Jadwal: " + jadwal, 20, 80);
-    pdf.text("Alamat: " + alamat, 20, 90);
-
-    // 🔥 kalau ada foto
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const imgData = event.target.result;
-
-            // masukkan gambar ke PDF
-            pdf.addImage(imgData, 'JPEG', 140, 30, 40, 40);
-
-            pdf.save("data-pendaftaran.pdf");
-        };
-        reader.readAsDataURL(file);
-    } else {
-        pdf.save("data-pendaftaran.pdf");
-    }
-});
-</script>
+<script src="script.js"></script>
 </body>
 </html>
