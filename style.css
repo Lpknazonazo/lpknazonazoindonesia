@@ -99,16 +99,15 @@ body {
 }
 
 .cta-button {
+   .btn-daftar {
     display: inline-block;
-    background: linear-gradient(45deg, #1657a7);
+    background: linear-gradient(45deg, #1657a7, #4facfe);
     color: white;
     padding: 15px 40px;
     text-decoration: none;
     border-radius: 50px;
     font-weight: bold;
-    font-size: 1.1rem;
-    transition: transform 0.3s, box-shadow 0.3s;
-    animation: fadeInUp 1s ease 0.4s both;
+}
 }
 
 .cta-button:hover {
