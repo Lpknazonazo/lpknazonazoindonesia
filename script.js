@@ -1,21 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    console.log("JS KELOAD ✅");
+
     // Elements
     const form = document.getElementById('pendaftaranForm');
     const successMsg = document.getElementById('successMessage');
-    const downloadBtn = document.getElementById('downloadPdf');
     const clearBtn = document.getElementById('clearForm');
     const fotoInput = document.getElementById('foto');
     const fotoPreview = document.getElementById('fotoPreview');
 
-    // ❗ STOP kalau form tidak ada
+    // ❗ Stop kalau form tidak ada
     if (!form) {
-        console.error("Form tidak ditemukan!");
+        console.error("❌ Form tidak ditemukan!");
         return;
     }
 
     let studentData = {};
-    let pdfDoc = null;
 
     // =========================
     // PREVIEW FOTO
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const file = e.target.files[0];
 
             if (!file) {
-                fotoPreview.innerHTML = '';
+                if (fotoPreview) fotoPreview.innerHTML = '';
                 return;
             }
 
@@ -37,9 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const reader = new FileReader();
             reader.onload = function (e) {
-                fotoPreview.innerHTML = `
-                    <img src="${e.target.result}" style="width:100px;border-radius:10px;">
-                `;
+                if (fotoPreview) {
+                    fotoPreview.innerHTML = `
+                        <img src="${e.target.result}" style="width:100px;border-radius:10px;">
+                    `;
+                }
             };
             reader.readAsDataURL(file);
         });
@@ -50,6 +52,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================
     form.addEventListener('submit', function (e) {
         e.preventDefault();
+        console.log("Submit ditekan ✅");
+
+        // 🔥 CEK JSPDF
+        if (!window.jspdf) {
+            alert("❌ jsPDF belum kebaca!");
+            console.error("jspdf undefined");
+            return;
+        }
 
         const nama = document.getElementById('nama').value.trim();
         if (!nama) {
@@ -65,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
             kursus: document.getElementById('jenisKursus').value,
             jadwal: document.getElementById('jadwal').value,
             alamat: document.getElementById('alamat').value,
-            foto: fotoInput ? fotoInput.files[0] : null
+            foto: fotoInput && fotoInput.files ? fotoInput.files[0] : null
         };
 
         generatePDF();
@@ -96,27 +106,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     doc.addImage(e.target.result, 'JPEG', 140, 40, 40, 40);
-                    downloadPDF(doc);
+                    finish(doc);
                 };
                 reader.readAsDataURL(studentData.foto);
             } else {
-                downloadPDF(doc);
+                finish(doc);
             }
 
         } catch (err) {
-            console.error(err);
+            console.error("ERROR PDF:", err);
             alert("Gagal buat PDF!");
         }
     }
 
     // =========================
-    // DOWNLOAD
+    // FINISH & DOWNLOAD
     // =========================
-    function downloadPDF(doc) {
+    function finish(doc) {
         doc.save("pendaftaran.pdf");
 
-        form.style.display = "none";
-        successMsg.style.display = "block";
+        if (form) form.style.display = "none";
+        if (successMsg) successMsg.style.display = "block";
     }
 
     // =========================
