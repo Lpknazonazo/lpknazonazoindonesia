@@ -140,3 +140,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+// TAMBAH KAKAK / ADEK
+document.getElementById("tambahKeluarga").addEventListener("click", function () {
+
+    const container = document.getElementById("keluargaContainer");
+
+    const div = document.createElement("div");
+    div.classList.add("keluarga-item");
+
+    div.innerHTML = `
+        <div class="form-row">
+            <div class="form-group">
+                <label>Hubungan</label>
+                <select name="keluargaHubungan[]">
+                    <option>Kakak</option>
+                    <option>Adik</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nama</label>
+                <input type="text" name="keluargaNama[]">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Umur</label>
+                <input type="number" name="keluargaUmur[]">
+            </div>
+
+            <div class="form-group">
+                <label>Pekerjaan</label>
+                <input type="text" name="keluargaPekerjaan[]">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Penghasilan</label>
+            <input type="number" name="keluargaGaji[]">
+        </div>
+
+        <button type="button" class="btn-remove">❌ Hapus</button>
+    `;
+
+    container.appendChild(div);
+});
