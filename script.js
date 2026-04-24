@@ -1,7 +1,6 @@
 document.getElementById("pendaftaranForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // biar tidak reload
+    e.preventDefault();
 
-    // ambil data dari form
     const nama = document.getElementById("nama").value;
     const email = document.getElementById("email").value;
     const noHp = document.getElementById("noHp").value;
@@ -9,7 +8,8 @@ document.getElementById("pendaftaranForm").addEventListener("submit", function(e
     const jadwal = document.getElementById("jadwal").value;
     const alamat = document.getElementById("alamat").value;
 
-    // buat isi PDF
+    const file = document.getElementById("foto").files[0];
+
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
 
@@ -24,9 +24,23 @@ document.getElementById("pendaftaranForm").addEventListener("submit", function(e
     pdf.text("Jadwal: " + jadwal, 20, 80);
     pdf.text("Alamat: " + alamat, 20, 90);
 
-    // download PDF
-    pdf.save("data-pendaftaran.pdf");
+    // 🔥 kalau ada foto
+    if (file) {
+        const reader = new FileReader();
 
-    // tampilkan pesan sukses
+        reader.onload = function(event) {
+            const imgData = event.target.result;
+
+            // masukin foto ke PDF
+            pdf.addImage(imgData, 'JPEG', 150, 20, 30, 30);
+
+            pdf.save("data-pendaftaran.pdf");
+        };
+
+        reader.readAsDataURL(file);
+    } else {
+        pdf.save("data-pendaftaran.pdf");
+    }
+
     document.getElementById("successMessage").style.display = "block";
 });
