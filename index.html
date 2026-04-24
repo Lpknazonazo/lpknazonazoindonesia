@@ -3,24 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Form Jepang</title>
-
-<link rel="stylesheet" href="style.css">
+<title>Form Jepang - Prime Tekipaki Raya</title>
 
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-body {font-family:sans-serif;padding:20px;}
-.form-group {margin-bottom:10px;}
-.form-row {display:flex;gap:10px;}
-input, select {padding:8px;width:100%;}
-button {padding:10px;margin-top:10px;}
-</style>
+body {
+    font-family: 'Segoe UI';
+    background:#f4f6f9;
+    margin:0;
+}
 
+.container {
+    max-width:900px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+}
+
+h2,h3 {
+    color:#1e3a8a;
+}
+
+.form-group {
+    margin-bottom:15px;
+}
+
+.form-row {
+    display:flex;
+    gap:10px;
+}
+
+input,select {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button {
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn {
+    background:#1e3a8a;
+    color:white;
+}
+
+.btn-add {
+    background:#d4af37;
+}
+
+.item {
+    border:1px solid #ddd;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+</style>
 </head>
+
 <body>
 
+<div class="container">
 <h2>Form Pendaftaran Jepang</h2>
 
 <form id="form">
@@ -46,65 +97,74 @@ button {padding:10px;margin-top:10px;}
     <input type="text" id="nama" required>
 </div>
 
-<!-- PENDIDIKAN -->
+<!-- ================= PENDIDIKAN ================= -->
 <h3>Pendidikan</h3>
 <div id="pendidikan">
     <div class="item">
-        <input type="month" class="dari">
-        <input type="month" class="sampai">
-        <input type="text" placeholder="Sekolah" class="sekolah">
+        <div class="form-row">
+            <input type="month" class="dari">
+            <input type="month" class="sampai">
+        </div>
+        <input type="text" placeholder="Nama Sekolah" class="sekolah">
         <input type="text" placeholder="Jenjang" class="jenjang">
         <input type="text" placeholder="Jurusan" class="jurusan">
     </div>
 </div>
-<button type="button" onclick="tambahPendidikan()">+ Tambah</button>
 
-<!-- KELUARGA -->
+<button type="button" class="btn-add" onclick="tambahPendidikan()">+ Tambah Pendidikan</button>
+
+<!-- ================= KELUARGA ================= -->
 <h3>Keluarga</h3>
 
 <div id="keluarga">
 
 <div class="item">
-    <b>Ayah</b>
-    <input type="hidden" value="Ayah" class="hubungan">
-    <input type="text" placeholder="Nama" class="namaK">
-    <input type="number" placeholder="Umur" class="umur">
-    <input type="text" placeholder="Pekerjaan" class="kerja">
-    <input type="number" placeholder="Gaji" class="gaji">
+<b>Ayah</b>
+<input type="hidden" value="Ayah" class="hubungan">
+<input type="text" placeholder="Nama" class="namaK">
+<input type="number" placeholder="Umur" class="umur">
+<input type="text" placeholder="Pekerjaan" class="kerja">
+<input type="number" placeholder="Penghasilan" class="gaji">
 </div>
 
 <div class="item">
-    <b>Ibu</b>
-    <input type="hidden" value="Ibu" class="hubungan">
-    <input type="text" placeholder="Nama" class="namaK">
-    <input type="number" placeholder="Umur" class="umur">
-    <input type="text" placeholder="Pekerjaan" class="kerja">
-    <input type="number" placeholder="Gaji" class="gaji">
+<b>Ibu</b>
+<input type="hidden" value="Ibu" class="hubungan">
+<input type="text" placeholder="Nama" class="namaK">
+<input type="number" placeholder="Umur" class="umur">
+<input type="text" placeholder="Pekerjaan" class="kerja">
+<input type="number" placeholder="Penghasilan" class="gaji">
 </div>
 
 </div>
 
-<button type="button" onclick="tambahKeluarga()">+ Tambah Saudara</button>
+<button type="button" class="btn-add" onclick="tambahKeluarga()">+ Tambah Kakak/Adik</button>
 
 <!-- FOTO -->
 <div class="form-group">
-    <label>Foto</label>
-    <input type="file" id="foto">
+<label>Upload Foto</label>
+<input type="file" id="foto">
 </div>
 
-<button type="submit">Download PDF</button>
+<br>
+
+<button type="submit" class="btn">Download PDF</button>
 
 </form>
+</div>
 
 <script>
 
 // TAMBAH PENDIDIKAN
 function tambahPendidikan(){
     let div = document.createElement("div");
+    div.className="item";
     div.innerHTML = `
-    <input type="month" class="dari">
-    <input type="month" class="sampai">
-    <input type="text" placeholder="Sekolah" class="sekolah">
+    <div class="form-row">
+        <input type="month" class="dari">
+        <input type="month" class="sampai">
+    </div>
+    <input type="text" placeholder="Nama Sekolah" class="sekolah">
     <input type="text" placeholder="Jenjang" class="jenjang">
     <input type="text" placeholder="Jurusan" class="jurusan">
     `;
@@ -114,6 +174,7 @@ function tambahPendidikan(){
 // TAMBAH KELUARGA
 function tambahKeluarga(){
     let div = document.createElement("div");
+    div.className="item";
     div.innerHTML = `
     <select class="hubungan">
         <option>Kakak</option>
@@ -122,12 +183,12 @@ function tambahKeluarga(){
     <input type="text" placeholder="Nama" class="namaK">
     <input type="number" placeholder="Umur" class="umur">
     <input type="text" placeholder="Pekerjaan" class="kerja">
-    <input type="number" placeholder="Gaji" class="gaji">
+    <input type="number" placeholder="Penghasilan" class="gaji">
     `;
     document.getElementById("keluarga").appendChild(div);
 }
 
-// SUBMIT
+// SUBMIT FORM
 document.getElementById("form").addEventListener("submit", function(e){
     e.preventDefault();
 
@@ -146,9 +207,10 @@ document.getElementById("form").addEventListener("submit", function(e){
     doc.text("Pendidikan:", 20, y); y+=10;
     document.querySelectorAll("#pendidikan .item").forEach(p=>{
         doc.text(
-            p.querySelector(".sekolah").value + " (" + 
-            p.querySelector(".dari").value + " - " + 
-            p.querySelector(".sampai").value + ")", 20, y
+            (p.querySelector(".sekolah").value || "-") + 
+            " (" + (p.querySelector(".dari").value || "-") + 
+            " - " + (p.querySelector(".sampai").value || "-") + ")",
+            20, y
         );
         y+=8;
     });
@@ -157,13 +219,26 @@ document.getElementById("form").addEventListener("submit", function(e){
     doc.text("Keluarga:", 20, y); y+=10;
     document.querySelectorAll("#keluarga .item").forEach(k=>{
         doc.text(
-            k.querySelector(".namaK").value + " - " + 
-            k.querySelector(".hubungan").value, 20, y
+            (k.querySelector(".namaK").value || "-") + 
+            " - " + (k.querySelector(".hubungan").value || "-"),
+            20, y
         );
         y+=8;
     });
 
-    doc.save("data.pdf");
+    // FOTO
+    const file = document.getElementById("foto").files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            doc.addImage(e.target.result, 'JPEG', 140, 20, 40, 40);
+            doc.save("data.pdf");
+        }
+        reader.readAsDataURL(file);
+    } else {
+        doc.save("data.pdf");
+    }
+
 });
 
 </script>
