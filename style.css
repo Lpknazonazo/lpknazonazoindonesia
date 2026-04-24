@@ -99,7 +99,6 @@ body {
 }
 
 .cta-button {
-   .btn-daftar {
     display: inline-block;
     background: linear-gradient(45deg, #1657a7, #4facfe);
     color: white;
@@ -107,8 +106,16 @@ body {
     text-decoration: none;
     border-radius: 50px;
     font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
 }
+
+/* efek hover biar keren */
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
+
 
 .cta-button:hover {
     transform: translateY(-3px);
