@@ -84,11 +84,9 @@ body {
     justify-content: center;
     text-align: center;
     color: white;
-    .hero {
     background: linear-gradient(rgba(15,23,42,0.7), rgba(15,23,42,0.7)),
                 url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920') center/cover;
     color: white;
-}
 }
 
 .hero-content h1 {
