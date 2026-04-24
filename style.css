@@ -1,319 +1,37 @@
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-}
+.navbar { background: #2c3e50; color: white; padding: 1rem 0; }
+.nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+.nav-menu { display: flex; list-style: none; gap: 2rem; }
+.nav-link { color: white; text-decoration: none; }
+.nav-link.active { border-bottom: 2px solid #3498db; }
 
-/* CONTAINER */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+.hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 100px 20px; }
+.cta-button { display: inline-block; background: #e74c3c; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
 
-/* NAVBAR */
-.navbar {
-    background: linear-gradient(135deg, #0f172a, #1e3a8a);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
+.pendaftaran { padding: 50px 0; background: #f8f9fa; }
+.container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+.jepang-form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.form-section { margin-bottom: 30px; }
+.form-section h3 { color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.form-group { margin-bottom: 20px; }
+.form-row { display: flex; gap: 20px; }
+.form-row .form-group { flex: 1; }
+label { display: block; margin-bottom: 5px; font-weight: bold; }
+input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; }
+.keluarga-item { background: #f1f3f4; padding: 15px; margin-bottom: 10px; border-radius: 5px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.keluarga-item h4 { margin: 0; min-width: 80px; }
+.btn-add, .btn-remove, .btn-submit, .btn-clear { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+.btn-add { background: #27ae60; color: white; }
+.btn-remove { background: #e74c3c; color: white; padding: 5px 10px; font-size: 14px; }
+.btn-submit { background: #3498db; color: white; width: 100%; font-size: 18px; }
+.btn-clear { background: #95a5a6; color: white; width: 100%; margin-top: 10px; }
+.form-actions { display: flex; flex-direction: column; gap: 10px; }
+.foto-preview { max-width: 200px; max-height: 200px; border-radius: 10px; margin-top: 10px; }
+.success-message { background: #d4edda; color: #155724; padding: 20px; border-radius: 5px; text-align: center; margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
 
-.nav-container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 70px;
-}
-
-.nav-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
-
-.nav-link {
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.nav-link:hover, .nav-link.active {
-    color: #d4af37;
-}
-
-/* HERO */
-.hero {
-    background: linear-gradient(rgba(15,23,42,0.7), rgba(15,23,42,0.7)),
-                url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920') center/cover;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    margin-top: 70px;
-}
-
-.hero-content h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.hero-content p {
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-}
-
-/* BUTTON */
-.cta-button {
-    display: inline-block;
-    background: linear-gradient(45deg, #d4af37, #f5d76e);
-    color: #0f172a;
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-weight: bold;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-/* PENDAFTARAN - PERFECT CENTER */
-.pendaftaran {
-    padding: 100px 0;
-    background: white;
-}
-
-.pendaftaran h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #0f172a;
-}
-
-.pendaftaran > p {
-    text-align: center;
-    color: #666;
-    margin-bottom: 3rem;
-    font-size: 1.1rem;
-}
-
-.form-pendaftaran {
-    max-width: 800px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #e9ecef;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s;
-    background: white;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #d4af37;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-}
-
-/* BUTTONS CENTER - INI YANG BIKIN CENTER! */
-.form-actions {
-    margin-top: 2.5rem;
-    display: flex;
-    justify-content: center;  /* ← CENTER MAGIC */
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.btn-submit, .btn-clear {
-    padding: 15px 35px;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-submit {
-    background: linear-gradient(45deg, #d4af37, #f5d76e);
-    color: #0f172a;
-}
-
-.btn-submit:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
-}
-
-.btn-clear {
-    background: linear-gradient(45deg, #6c757d, #495057);
-    color: white;
-}
-
-.btn-clear:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(108, 117, 125, 0.4);
-}
-
-/* FOTO UPLOAD */
-.file-input {
-    padding: 10px;
-    background: white;
-}
-
-.foto-preview {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.foto-preview img {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* SUCCESS MESSAGE */
-.success-message {
-    max-width: 800px;
-    margin: 2rem auto 0;
-    background: linear-gradient(45deg, #28a745, #20c997);
-    color: white;
-    padding: 2.5rem;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(40, 167, 69, 0.3);
-}
-
-.success-message h3 {
-    margin: 1rem 0;
-    font-size: 1.5rem;
-}
-
-.download-link {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    padding: 12px 30px;
-    border: 2px solid white;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 1rem;
-    backdrop-filter: blur(10px);
-}
-
-.download-link:hover {
-    background: white;
-    color: #28a745;
-}
-
-/* CONTACT */
-.contact {
-    padding: 100px 0;
-    background: linear-gradient(135deg, #0f172a, #1e3a8a);
-    color: white;
-    text-align: center;
-}
-
-.contact h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-}
-
-.contact-info {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: 1.2rem;
-    padding: 1.5rem;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-/* RESPONSIVE */
 @media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .btn-submit, .btn-clear {
-        width: 100%;
-        max-width: 300px;
-    }
-    
-    .contact-info {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+    .form-row { flex-direction: column; }
+    .keluarga-item { flex-direction: column; align-items: flex-start; }
 }
