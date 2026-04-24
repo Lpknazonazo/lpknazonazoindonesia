@@ -5,181 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Tekipaki Raya</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- PDF Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-graduation-cap"></i>
-                Prime Tekipaki Raya
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link active">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#gallery" class="nav-link">Galeri</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#pendaftaran" class="nav-link">Pendaftaran</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Kontak</a>
-                </li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <i class="fas fa-graduation-cap"></i>
+            Prime Tekipaki Raya
         </div>
-    </nav>
 
-    <!-- Home Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Selamat Datang di Prime Tekipaki Raya</h1>
-            <p>Kembangkan skill Anda bersama kursus terbaik kami</p>
-            <a href="#pendaftaran" class="cta-button">Daftar Sekarang</a>
-        </div>
-    </section>
+        <ul class="nav-menu">
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#gallery" class="nav-link">Galeri</a></li>
+            <li><a href="#pendaftaran" class="nav-link">Pendaftaran</a></li>
+            <li><a href="#contact" class="nav-link">Kontak</a></li>
+        </ul>
+    </div>
+</nav>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="gallery">
-        <div class="container">
-            <h2>Galeri Kegiatan</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=300&fit=crop" alt="Kelas">
-                    <div class="gallery-overlay">
-                        <h3>Kelas Praktik</h3>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop" alt="Sertifikat">
-                    <div class="gallery-overlay">
-                        <h3>Penyerahan Sertifikat</h3>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1524178232363-64cc13c4dc17?w=400&h=300&fit=crop" alt="Workshop">
-                    <div class="gallery-overlay">
-                        <h3>Workshop</h3>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Diskusi">
-                    <div class="gallery-overlay">
-                        <h3>Diskusi Kelompok</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Hero -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Selamat Datang di Prime Tekipaki Raya</h1>
+        <p>Kembangkan skill Anda bersama kursus terbaik kami</p>
+        <a href="#pendaftaran" class="cta-button">Daftar Sekarang</a>
+    </div>
+</section>
 
-    <!-- Pendaftaran Section -->
-    <section id="pendaftaran" class="pendaftaran">
-        <div class="container">
-            <h2>Pendaftaran Siswa Baru</h2>
-            <p>Isi form di bawah ini untuk mendaftar kursus</p>
-            
-            <form id="pendaftaranForm" class="form-pendaftaran">
-                <div class="form-group">
-                    <label for="nama">Nama Lengkap *</label>
-                    <input type="text" id="nama" name="nama" required>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="noHp">No. HP *</label>
-                        <input type="tel" id="noHp" name="noHp" required>
-                    </div>
-                </div>
+<!-- Pendaftaran -->
+<section id="pendaftaran" class="pendaftaran">
+    <div class="container">
+        <h2>Pendaftaran Siswa Baru</h2>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="jenisKursus">Jenis Kursus *</label>
-                        <select id="jenisKursus" name="jenisKursus" required>
-                            <option value="">Pilih Kursus</option>
-                            <option value="Desain Grafis">Desain Grafis</option>
-                            <option value="Web Development">Web Development</option>
-                            <option value="Digital Marketing">Digital Marketing</option>
-                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                            <option value="Fotografi">Fotografi</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="jadwal">Jadwal *</label>
-                        <select id="jadwal" name="jadwal" required>
-                            <option value="">Pilih Jadwal</option>
-                            <option value="Pagi (08:00-10:00)">Pagi (08:00-10:00)</option>
-                            <option value="Siang (13:00-15:00)">Siang (13:00-15:00)</option>
-                            <option value="Sore (16:00-18:00)">Sore (16:00-18:00)</option>
-                        </select>
-                    </div>
-                </div>
+        <form id="pendaftaranForm">
 
-                <div class="form-group">
-                    <label for="alamat">Alamat Lengkap</label>
-                    <textarea id="alamat" name="alamat" rows="3"></textarea>
-                </div>
+            <input type="text" id="nama" placeholder="Nama Lengkap" required><br><br>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit">
-                        <i class="fas fa-save"></i> Simpan & Download PDF
-                    </button>
-                    <button type="button" id="clearForm" class="btn-clear">
-                        <i class="fas fa-trash"></i> Bersihkan
-                    </button>
-                </div>
-            </form>
+            <input type="email" id="email" placeholder="Email" required><br><br>
 
-            <div id="successMessage" class="success-message" style="display: none;">
-                <i class="fas fa-check-circle"></i>
-                Data berhasil disimpan! <a href="#" id="downloadPdf">Download PDF</a>
-            </div>
-        </div>
-    </section>
+            <input type="text" id="noHp" placeholder="No HP" required><br><br>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Hubungi Kami</h2>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h3>Alamat</h3>
-                        <p>Jl. Contoh No. 123, Jakarta</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <h3>Telepon</h3>
-                        <p>(021) 12345678</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <h3>Email</h3>
-                        <p>info@primetekipakiraya.com</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <select id="jenisKursus" required>
+                <option value="">Pilih Kursus</option>
+                <option>Web Development</option>
+                <option>Desain Grafis</option>
+            </select><br><br>
 
-    <script src="script.js"></script>
+            <select id="jadwal" required>
+                <option value="">Pilih Jadwal</option>
+                <option>Pagi</option>
+                <option>Sore</option>
+            </select><br><br>
+
+            <textarea id="alamat" placeholder="Alamat"></textarea><br><br>
+
+            <button type="submit" class="cta-button">
+                Simpan & Download PDF
+            </button>
+
+        </form>
+
+        <p id="successMessage" style="display:none; color:green;">
+            ✅ Data berhasil di download
+        </p>
+
+    </div>
+</section>
+
+<!-- SCRIPT -->
+<script>
+document.getElementById("pendaftaranForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const nama = document.getElementById("nama").value;
+    const email = document.getElementById("email").value;
+    const noHp = document.getElementById("noHp").value;
+    const kursus = document.getElementById("jenisKursus").value;
+    const jadwal = document.getElementById("jadwal").value;
+    const alamat = document.getElementById("alamat").value;
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+
+    pdf.setFontSize(16);
+    pdf.text("DATA PENDAFTARAN", 20, 20);
+
+    pdf.setFontSize(12);
+    pdf.text("Nama: " + nama, 20, 40);
+    pdf.text("Email: " + email, 20, 50);
+    pdf.text("No HP: " + noHp, 20, 60);
+    pdf.text("Kursus: " + kursus, 20, 70);
+    pdf.text("Jadwal: " + jadwal, 20, 80);
+    pdf.text("Alamat: " + alamat, 20, 90);
+
+    pdf.save("data-pendaftaran.pdf");
+
+    document.getElementById("successMessage").style.display = "block";
+});
+</script>
+
 </body>
 </html>
