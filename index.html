@@ -83,7 +83,6 @@
     </div>
 </section>
 
-<!-- SCRIPT -->
 <script>
 document.getElementById("pendaftaranForm").addEventListener("submit", function(e) {
     e.preventDefault();
@@ -94,6 +93,8 @@ document.getElementById("pendaftaranForm").addEventListener("submit", function(e
     const kursus = document.getElementById("jenisKursus").value;
     const jadwal = document.getElementById("jadwal").value;
     const alamat = document.getElementById("alamat").value;
+
+    const file = document.getElementById("foto").files[0];
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF();
@@ -109,11 +110,22 @@ document.getElementById("pendaftaranForm").addEventListener("submit", function(e
     pdf.text("Jadwal: " + jadwal, 20, 80);
     pdf.text("Alamat: " + alamat, 20, 90);
 
-    pdf.save("data-pendaftaran.pdf");
+    // 🔥 kalau ada foto
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const imgData = event.target.result;
 
-    document.getElementById("successMessage").style.display = "block";
+            // masukkan gambar ke PDF
+            pdf.addImage(imgData, 'JPEG', 140, 30, 40, 40);
+
+            pdf.save("data-pendaftaran.pdf");
+        };
+        reader.readAsDataURL(file);
+    } else {
+        pdf.save("data-pendaftaran.pdf");
+    }
 });
 </script>
-
 </body>
 </html>
