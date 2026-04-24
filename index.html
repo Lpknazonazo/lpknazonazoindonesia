@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Tekipaki Raya</title>
 
-    <!-- Font Awesome (biar icon tidak error) -->
+    <!-- Font Awesome (WAJIB supaya icon tidak error) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- JSPDF -->
+    <!-- JS PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <!-- CSS kamu (kalau ada) -->
+    <!-- CSS (kalau ada) -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -32,7 +32,7 @@
     </div>
 </nav>
 
-<!-- Hero -->
+<!-- HERO -->
 <section id="home" class="hero">
     <div class="hero-content">
         <h1>Formulir Pendaftaran Jepang</h1>
@@ -41,7 +41,7 @@
     </div>
 </section>
 
-<!-- Form -->
+<!-- FORM -->
 <section id="pendaftaran" class="pendaftaran">
     <div class="container">
         <h2><i class="fas fa-file-alt"></i> Formulir Pendaftaran Lengkap</h2>
@@ -94,39 +94,51 @@
                 </div>
             </div>
 
-            <!-- KELUARGA (FIX DUPLICATE ID) -->
+            <!-- KELUARGA (FIX DUPLIKAT) -->
             <div class="form-section">
                 <h3><i class="fas fa-users"></i> Data Keluarga</h3>
 
                 <div id="keluargaContainer">
 
-                    <!-- AYAH -->
                     <div class="keluarga-item">
                         <h4>Ayah</h4>
                         <input type="hidden" name="keluargaHubungan[]" value="Ayah">
                         <input type="text" name="keluargaNama[]" placeholder="Nama">
                     </div>
 
-                    <!-- IBU -->
                     <div class="keluarga-item">
                         <h4>Ibu</h4>
                         <input type="hidden" name="keluargaHubungan[]" value="Ibu">
                         <input type="text" name="keluargaNama[]" placeholder="Nama">
                     </div>
 
+                    <div class="keluarga-item">
+                        <h4>Kakak / Adik</h4>
+                        <select name="keluargaHubungan[]">
+                            <option>Kakak</option>
+                            <option>Adik</option>
+                        </select>
+                        <input type="text" name="keluargaNama[]" placeholder="Nama">
+                    </div>
+
                 </div>
+
+                <button type="button" id="tambahKeluarga" class="btn-add">
+                    ➕ Tambah Keluarga
+                </button>
             </div>
 
             <!-- FOTO -->
             <div class="form-section">
                 <h3><i class="fas fa-camera"></i> Foto</h3>
                 <input type="file" id="foto" accept="image/*" required>
+                <div id="fotoPreview"></div>
             </div>
 
             <!-- BUTTON -->
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
-                    Download PDF
+                    Generate PDF
                 </button>
 
                 <button type="button" id="clearForm" class="btn-clear">
@@ -143,7 +155,7 @@
     </div>
 </section>
 
-<!-- SCRIPT HARUS DI BAWAH -->
+<!-- SCRIPT HARUS DI PALING BAWAH -->
 <script src="script.js"></script>
 
 </body>
