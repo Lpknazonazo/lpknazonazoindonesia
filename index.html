@@ -147,6 +147,13 @@ section{padding:90px 0}
 .gallery-item:hover .gallery-item-overlay{opacity:1}
 .gallery-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--navy-mid)}
 .gallery-placeholder span{font-size:12px;opacity:.6}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
 
 /* ===== KONTAK ===== */
 #contact{background:var(--surface)}
@@ -482,8 +489,11 @@ footer{background:var(--navy3);color:rgba(255,255,255,.65);padding:56px 0 28px}
         <div class="gallery-item-overlay"><p>Sesi Pelatihan Bahasa Jepang</p></div>
       </div>
       <div class="gallery-item" style="background:linear-gradient(135deg,#2e5480,#1d4e7a)">
-        <div class="gallery-placeholder"><i class="fas fa-plane-departure"></i><span>Foto Kegiatan</span></div>
-        <div class="gallery-item-overlay"><p>Keberangkatan Peserta</p><img src="gallery.jpeg" alt="foto"></div>
+       <div class="gallery-item" style="background-image:url('galery.jpeg'); background-size:cover; background-position:center;">
+       <div class="gallery-item-overlay">
+       <p>Keberangkatan Peserta</p>
+       </div>
+     </div>
       </div>
       <div class="gallery-item" style="background:linear-gradient(135deg,#0f2440,#1a3a5c)">
         <div class="gallery-placeholder"><i class="fas fa-graduation-cap"></i><span>Foto Kegiatan</span></div>
