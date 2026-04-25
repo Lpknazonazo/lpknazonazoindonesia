@@ -12,9 +12,9 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --red: #c0392b;
-    --red-light: #f8e8e7;
-    --red-dark: #922b21;
+    --red: #1a3a5c;
+    --red-light: #e8eef5;
+    --red-dark: #0f2440;
     --ink: #1a1a1a;
     --ink2: #444;
     --ink3: #777;
@@ -283,7 +283,7 @@
   <h1>Formulir Pendaftaran Jepang</h1>
   <p>Lengkapi semua data dengan benar. Formulir ini akan diunduh sebagai PDF siap cetak.</p>
   <div class="hero-badge">
-    <i class="fas fa-file-pdf"></i> Otomatis Generate PDF
+    <i class="fas fa-pen-to-square"></i> Daftar Sekarang
   </div>
 </section>
 
@@ -298,15 +298,28 @@
       <h3>Data Pribadi</h3>
     </div>
     <div class="card-body">
-      <div class="grid-2" style="margin-bottom:16px">
-        <div class="form-group">
-          <label>Nama (Hiragana) <span class="req">*</span></label>
-          <input type="text" id="namaHiragana" placeholder="例：やまだたろう">
+      <div class="form-group" style="margin-bottom:16px">
+        <label>Program <span class="req">*</span></label>
+        <div style="display:flex;gap:12px;margin-top:6px">
+          <label class="prog-label" id="lbl-toku" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:12px 18px;border:1.5px solid var(--border);border-radius:var(--radius);flex:1;transition:border-color .2s,background .2s">
+            <input type="radio" name="program" id="prog-toku" value="Tokutei Ginou" style="accent-color:var(--red);width:16px;height:16px;flex-shrink:0">
+            <span>
+              <strong style="display:block;font-size:14px;font-weight:600">Tokutei Ginou</strong>
+              <span style="font-size:11px;color:var(--ink3)">特定技能</span>
+            </span>
+          </label>
+          <label class="prog-label" id="lbl-jiss" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:12px 18px;border:1.5px solid var(--border);border-radius:var(--radius);flex:1;transition:border-color .2s,background .2s">
+            <input type="radio" name="program" id="prog-jiss" value="Jisshusei" style="accent-color:var(--red);width:16px;height:16px;flex-shrink:0">
+            <span>
+              <strong style="display:block;font-size:14px;font-weight:600">Jisshusei</strong>
+              <span style="font-size:11px;color:var(--ink3)">技能実習生</span>
+            </span>
+          </label>
         </div>
-        <div class="form-group">
-          <label>Nama (Romaji) <span class="req">*</span></label>
-          <input type="text" id="namaRomaji" placeholder="YAMADA TARO">
-        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label>Nama Lengkap <span class="req">*</span></label>
+        <input type="text" id="namaRomaji" placeholder="Nama lengkap sesuai KTP">
       </div>
       <div class="grid-3" style="margin-bottom:16px">
         <div class="form-group">
@@ -681,7 +694,7 @@ function collectData() {
   });
 
   return {
-    namaHiragana: el('namaHiragana').value,
+    program: document.querySelector('input[name="program"]:checked')?.value || '',
     namaRomaji: el('namaRomaji').value,
     jenisKelamin: el('jenisKelamin').value,
     statusMenikah: el('statusMenikah').value,
@@ -715,7 +728,7 @@ function generatePDF() {
   let y = 0;
 
   // Color helpers
-  const RED = [192, 57, 43];
+  const RED = [26, 58, 92];
   const DARK = [26, 26, 26];
   const GRAY = [100, 100, 100];
   const LGRAY = [220, 220, 220];
@@ -822,7 +835,7 @@ function generatePDF() {
   doc.text('FORMULIR PENDAFTARAN', M, 17);
   doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(255, 220, 220);
+  doc.setTextColor(200, 220, 240);
   doc.text('Prime Tekipaki Raya  |  日本留学支援', M, 25);
   doc.setFontSize(8.5);
   doc.text('Form Pendaftaran Kerja Jepang', M, 32);
@@ -845,7 +858,7 @@ function generatePDF() {
       doc.rect(photoX, photoY, photoW, photoH);
     } catch(e) {}
   } else {
-    doc.setFillColor(150, 30, 20);
+    doc.setFillColor(10, 30, 60);
     doc.rect(photoX, photoY, photoW, photoH, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(7);
@@ -856,8 +869,8 @@ function generatePDF() {
 
   // ===== DATA PRIBADI =====
   sectionHeader('Data Pribadi');
-  row('Nama (Hiragana)', d.namaHiragana);
-  row('Nama (Romaji)', d.namaRomaji);
+  row('Program', d.program);
+  row('Nama Lengkap', d.namaRomaji);
   twoRows([['Jenis Kelamin', d.jenisKelamin], ['Status Menikah', d.statusMenikah]]);
   twoRows([['Golongan Darah', d.golDarah], ['Kewarganegaraan', d.kewarganegaraan]]);
   twoRows([['Tanggal Lahir', d.tanggalLahir], ['Agama', d.agama]]);
@@ -987,7 +1000,7 @@ function generatePDF() {
     y += 3;
     sectionHeader('Self PR');
     checkY(12);
-    doc.setFillColor(252, 248, 248);
+    doc.setFillColor(240, 245, 252);
     const prLines = doc.splitTextToSize(d.selfPR, lineW - 8);
     const prH = prLines.length * 5 + 8;
     checkY(prH);
@@ -1047,6 +1060,30 @@ document.addEventListener('DOMContentLoaded', () => {
   // Default keluarga
   addKeluarga('Ayah');
   addKeluarga('Ibu');
+
+  // Radio highlight
+  document.querySelectorAll('input[name="program"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.querySelectorAll('.prog-label').forEach(l => {
+        l.style.borderColor = 'var(--border)';
+        l.style.background = '';
+      });
+      r.closest('.prog-label').style.borderColor = 'var(--red)';
+      r.closest('.prog-label').style.background = 'var(--red-light)';
+    });
+  });
+
+  // Radio highlight
+  document.querySelectorAll('input[name="program"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.querySelectorAll('.prog-label').forEach(l => {
+        l.style.borderColor = 'var(--border)';
+        l.style.background = '';
+      });
+      r.closest('.prog-label').style.borderColor = 'var(--red)';
+      r.closest('.prog-label').style.background = 'var(--red-light)';
+    });
+  });
 
   el('tambahPendidikan').onclick = addPendidikan;
   el('tambahKerja').onclick = addKerja;
