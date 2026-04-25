@@ -1,229 +1,1070 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prime Tekipaki Raya</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Tekipaki Raya – Formulir Pendaftaran Jepang</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap');
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #c0392b;
+    --red-light: #f8e8e7;
+    --red-dark: #922b21;
+    --ink: #1a1a1a;
+    --ink2: #444;
+    --ink3: #777;
+    --border: #ddd;
+    --surface: #fafafa;
+    --white: #fff;
+    --radius: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f2f2f0;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--red);
+    box-shadow: 0 2px 12px rgba(0,0,0,.18);
+  }
+  .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; height: 58px;
+  }
+  .nav-logo {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px; color: #fff; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo .jp { font-size: 13px; opacity: .75; margin-left: 6px; }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,.85); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+
+  /* HERO */
+  .hero {
+    background: var(--red);
+    color: #fff;
+    text-align: center;
+    padding: 64px 24px 56px;
+  }
+  .hero .ja {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px; opacity: .7; letter-spacing: 3px; margin-bottom: 12px;
+  }
+  .hero h1 { font-size: 32px; font-weight: 600; margin-bottom: 10px; letter-spacing: -.3px; }
+  .hero p { opacity: .8; font-size: 15px; max-width: 480px; margin: 0 auto 28px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px;
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+
+  /* MAIN */
+  .main { max-width: 820px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  .card {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .card-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head .icon {
+    width: 32px; height: 32px;
+    background: var(--red-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--red);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .card-head h3 { font-size: 14px; font-weight: 600; color: var(--ink); }
+
+  .card-body { padding: 24px; }
+
+  /* FORM GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-3 { grid-column: span 3; }
+
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group label {
+    font-size: 12px; font-weight: 500; color: var(--ink2);
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .form-group label .req { color: var(--red); }
+
+  input[type=text], input[type=date], input[type=number], input[type=email],
+  select, textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--white);
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(192,57,43,.1);
+  }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23777'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+  textarea { resize: vertical; min-height: 80px; }
+
+  /* SEPARATOR */
+  .sep { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* RIWAYAT / KELUARGA items */
+  .entry-block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    background: var(--surface);
+  }
+  .entry-block .entry-label {
+    font-size: 11px; font-weight: 600; color: var(--red);
+    text-transform: uppercase; letter-spacing: .8px;
+    margin-bottom: 12px;
+  }
+  .btn-remove {
+    position: absolute; top: 12px; right: 12px;
+    background: none; border: 1px solid #eee;
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    cursor: pointer;
+    color: var(--ink3);
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .btn-remove:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+
+  .btn-add {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 4px;
+    background: none;
+    border: 1px dashed var(--red);
+    border-radius: var(--radius);
+    color: var(--red);
+    padding: 8px 16px;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    font-family: inherit;
+  }
+  .btn-add:hover { background: var(--red-light); }
+
+  /* FOTO UPLOAD */
+  .foto-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    position: relative;
+  }
+  .foto-zone:hover { border-color: var(--red); background: var(--red-light); }
+  .foto-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .foto-zone .icon { font-size: 28px; color: var(--ink3); margin-bottom: 8px; }
+  .foto-zone p { font-size: 13px; color: var(--ink3); }
+  .foto-zone p strong { color: var(--red); }
+  #fotoPreview img { max-height: 160px; border-radius: var(--radius); margin-top: 14px; border: 1px solid var(--border); }
+
+  /* ACTIONS */
+  .actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 8px;
+  }
+  .btn-submit {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 12px 28px;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+    font-family: inherit;
+  }
+  .btn-submit:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-reset {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none;
+    color: var(--ink2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 20px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+    font-family: inherit;
+  }
+  .btn-reset:hover { background: #f0f0f0; }
+
+  /* SUCCESS TOAST */
+  #toast {
+    position: fixed; bottom: 30px; right: 30px;
+    background: #1a7a4f;
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    transform: translateY(80px); opacity: 0;
+    transition: transform .35s ease, opacity .35s ease;
+    z-index: 9999;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 600px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .col-span-2, .col-span-3 { grid-column: span 1; }
+    .hero h1 { font-size: 24px; }
+  }
+</style>
+</head>
 <body>
-<!-- Navbar -->
+
+<!-- NAVBAR -->
 <nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-logo">
-            <i class="fas fa-graduation-cap"></i>
-            Prime Tekipaki Raya
-        </div>
-        <ul class="nav-menu">
-            <li><a href="#home" class="nav-link active">Home</a></li>
-            <li><a href="#pendaftaran" class="nav-link">Pendaftaran</a></li>
-            <li><a href="#contact" class="nav-link">Kontak</a></li>
-        </ul>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <i class="fas fa-torii-gate"></i>
+      Prime Tekipaki Raya
+      <span class="jp">日本留学支援</span>
     </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#form">Formulir</a></li>
+    </ul>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="home" class="hero">
-    <div class="hero-content">
-        <h1>Formulir Pendaftaran Jepang</h1>
-        <p>Isi data lengkap untuk keberangkatan Jepang</p>
-        <a href="#pendaftaran" class="cta-button">Mulai Pendaftaran</a>
-    </div>
+  <div class="ja">フォーム記入</div>
+  <h1>Formulir Pendaftaran Jepang</h1>
+  <p>Lengkapi semua data dengan benar. Formulir ini akan diunduh sebagai PDF siap cetak.</p>
+  <div class="hero-badge">
+    <i class="fas fa-file-pdf"></i> Otomatis Generate PDF
+  </div>
 </section>
 
 <!-- FORM -->
-<section id="pendaftaran" class="pendaftaran">
-    <div class="container">
-        <h2><i class="fas fa-file-alt"></i> Formulir Pendaftaran Lengkap</h2>
+<div class="main" id="form">
+<form id="mainForm">
 
-        <form id="jepangForm" class="jepang-form">
-
-            <!-- DATA PRIBADI -->
-            <div class="form-section">
-                <h3><i class="fas fa-user"></i> Data Pribadi</h3>
-                <div class="form-group">
-                    <label>Nama lengkap *</label>
-                    <input type="text" id="namaRomaji" name="namaRomaji" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Jenis Kelamin *</label>
-                        <select id="jenisKelamin" name="jenisKelamin" required>
-                            <option value="">Pilih</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Status Menikah</label>
-                        <select id="statusMenikah" name="statusMenikah">
-                            <option value="">Pilih</option>
-                            <option value="Belum Menikah">Belum Menikah</option>
-                            <option value="Menikah">Menikah</option>
-                            <option value="Cerai">Cerai</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ALAMAT -->
-            <div class="form-section">
-                <h3><i class="fas fa-map-marker-alt"></i> Alamat</h3>
-                <div class="form-group">
-                    <label>Tempat Lahir *</label>
-                    <input type="text" id="tempatLahir" name="tempatLahir" required>
-                </div>
-                <div class="form-group">
-                    <label>Alamat Lengkap *</label>
-                    <textarea id="alamatLengkap" name="alamatLengkap" rows="3" required></textarea>
-                </div>
-            </div>
-
-            <!-- KELUARGA -->
-            <div class="form-section">
-                <h3><i class="fas fa-users"></i> Data Keluarga</h3>
-                <div id="keluargaContainer">
-                    <!-- Keluarga default akan ditambahkan via JS -->
-                </div>
-                <button type="button" id="tambahKeluarga" class="btn-add">➕ Tambah Keluarga</button>
-            </div>
-
-            <!-- FOTO -->
-            <div class="form-section">
-                <h3><i class="fas fa-camera"></i> Foto</h3>
-                <input type="file" id="foto" name="foto" accept="image/*" required>
-                <div id="fotoPreview"></div>
-            </div>
-
-            <!-- BUTTON -->
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-download"></i> Generate PDF
-                </button>
-                <button type="button" id="clearForm" class="btn-clear">
-                    <i class="fas fa-refresh"></i> Reset
-                </button>
-            </div>
-        </form>
-
-        <div id="successMessage" class="success-message" style="display:none;">
-            <i class="fas fa-check-circle"></i> PDF berhasil diunduh!
-        </div>
+  <!-- DATA PRIBADI -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-user"></i></div>
+      <h3>Data Pribadi</h3>
     </div>
-</section>
+    <div class="card-body">
+      <div class="grid-2" style="margin-bottom:16px">
+        <div class="form-group">
+          <label>Nama (Hiragana) <span class="req">*</span></label>
+          <input type="text" id="namaHiragana" placeholder="例：やまだたろう">
+        </div>
+        <div class="form-group">
+          <label>Nama (Romaji) <span class="req">*</span></label>
+          <input type="text" id="namaRomaji" placeholder="YAMADA TARO">
+        </div>
+      </div>
+      <div class="grid-3" style="margin-bottom:16px">
+        <div class="form-group">
+          <label>Jenis Kelamin <span class="req">*</span></label>
+          <select id="jenisKelamin">
+            <option value="">Pilih</option>
+            <option>Laki-laki</option>
+            <option>Perempuan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status Menikah</label>
+          <select id="statusMenikah">
+            <option value="">Pilih</option>
+            <option>Belum Menikah</option>
+            <option>Menikah</option>
+            <option>Cerai</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Golongan Darah</label>
+          <select id="golDarah">
+            <option value="">Pilih</option>
+            <option>A</option><option>B</option><option>O</option><option>AB</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-3" style="margin-bottom:16px">
+        <div class="form-group">
+          <label>Kewarganegaraan <span class="req">*</span></label>
+          <input type="text" id="kewarganegaraan" value="Indonesia">
+        </div>
+        <div class="form-group">
+          <label>Tanggal Lahir <span class="req">*</span></label>
+          <input type="date" id="tanggalLahir">
+        </div>
+        <div class="form-group">
+          <label>Agama</label>
+          <select id="agama">
+            <option value="">Pilih</option>
+            <option>Islam</option><option>Kristen</option><option>Katolik</option>
+            <option>Hindu</option><option>Buddha</option><option>Konghucu</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-4" style="margin-bottom:16px">
+        <div class="form-group">
+          <label>Tinggi Badan (cm)</label>
+          <input type="number" id="tinggiBadan" placeholder="170">
+        </div>
+        <div class="form-group">
+          <label>Berat Badan (kg)</label>
+          <input type="number" id="beratBadan" placeholder="65">
+        </div>
+        <div class="form-group">
+          <label>Penglihatan Kiri</label>
+          <input type="text" id="matKiri" placeholder="1.0">
+        </div>
+        <div class="form-group">
+          <label>Penglihatan Kanan</label>
+          <input type="text" id="matKanan" placeholder="1.0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Kemampuan Bahasa Jepang</label>
+        <select id="kemampuanJepang">
+          <option value="">Pilih Level</option>
+          <option>N5 (Pemula)</option>
+          <option>N4</option>
+          <option>N3</option>
+          <option>N2</option>
+          <option>N1 (Mahir)</option>
+          <option>Belum ada sertifikat</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALAMAT -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+      <h3>Alamat</h3>
+    </div>
+    <div class="card-body">
+      <div class="form-group" style="margin-bottom:16px">
+        <label>Tempat Lahir <span class="req">*</span></label>
+        <input type="text" id="tempatLahir" placeholder="Kota/Kabupaten tempat lahir">
+      </div>
+      <div class="form-group">
+        <label>Alamat Lengkap <span class="req">*</span></label>
+        <textarea id="alamatLengkap" rows="3" placeholder="Jl. ..., RT/RW, Kelurahan, Kecamatan, Kota, Provinsi"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- PENDIDIKAN -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+      <h3>Riwayat Pendidikan</h3>
+    </div>
+    <div class="card-body">
+      <div id="pendidikanContainer"></div>
+      <button type="button" class="btn-add" id="tambahPendidikan">
+        <i class="fas fa-plus"></i> Tambah Riwayat Pendidikan
+      </button>
+    </div>
+  </div>
+
+  <!-- PENGALAMAN KERJA -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-briefcase"></i></div>
+      <h3>Pengalaman Kerja</h3>
+    </div>
+    <div class="card-body">
+      <div id="kerjaContainer"></div>
+      <button type="button" class="btn-add" id="tambahKerja">
+        <i class="fas fa-plus"></i> Tambah Pengalaman Kerja
+      </button>
+    </div>
+  </div>
+
+  <!-- KELUARGA -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-users"></i></div>
+      <h3>Data Keluarga</h3>
+    </div>
+    <div class="card-body">
+      <div id="keluargaContainer"></div>
+      <button type="button" class="btn-add" id="tambahKeluarga">
+        <i class="fas fa-plus"></i> Tambah Anggota Keluarga
+      </button>
+    </div>
+  </div>
+
+  <!-- FOTO -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-camera"></i></div>
+      <h3>Foto</h3>
+    </div>
+    <div class="card-body">
+      <div class="foto-zone" id="fotoZone">
+        <input type="file" id="fotoInput" accept="image/*">
+        <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <p><strong>Klik untuk upload foto</strong> atau drag & drop</p>
+        <p style="font-size:12px;margin-top:4px">Format: JPG, PNG (max 5MB) — Ukuran 3×4 cm disarankan</p>
+        <div id="fotoPreview"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAMBAHAN -->
+  <div class="card">
+    <div class="card-head">
+      <div class="icon"><i class="fas fa-star"></i></div>
+      <h3>Informasi Tambahan</h3>
+    </div>
+    <div class="card-body">
+      <div class="grid-2" style="margin-bottom:16px">
+        <div class="form-group">
+          <label>Hobi</label>
+          <input type="text" id="hobi" placeholder="Membaca, olahraga, memasak...">
+        </div>
+        <div class="form-group">
+          <label>Target Gaji (¥/bulan)</label>
+          <input type="text" id="targetGaji" placeholder="200,000">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label>Catatan Tambahan</label>
+        <textarea id="catatan" rows="2" placeholder="Informasi lain yang ingin disampaikan..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Self PR (Deskripsi Diri)</label>
+        <textarea id="selfPR" rows="5" placeholder="Ceritakan tentang diri Anda, kelebihan, pengalaman, dan motivasi bekerja di Jepang..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button type="button" class="btn-reset" id="btnReset">
+      <i class="fas fa-undo"></i> Reset Form
+    </button>
+    <button type="button" class="btn-submit" id="btnPDF">
+      <i class="fas fa-file-pdf"></i> Generate & Download PDF
+    </button>
+  </div>
+
+</form>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><i class="fas fa-check-circle"></i> PDF berhasil diunduh!</div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Inisialisasi keluarga default
-    const keluargaContainer = document.getElementById('keluargaContainer');
-    const defaultKeluarga = [
-        { hubungan: 'Ayah', nama: '' },
-        { hubungan: 'Ibu', nama: '' }
-    ];
-    
-    defaultKeluarga.forEach((item, index) => {
-        tambahKeluargaItem(item.hubungan, item.nama, index);
+// ========== HELPERS ==========
+function el(id) { return document.getElementById(id); }
+
+function addBlock(containerId, html, label) {
+  const c = el(containerId);
+  const d = document.createElement('div');
+  d.className = 'entry-block';
+  d.innerHTML = `<div class="entry-label">${label}</div>` + html +
+    `<button type="button" class="btn-remove" title="Hapus"><i class="fas fa-times"></i></button>`;
+  d.querySelector('.btn-remove').onclick = () => d.remove();
+  c.appendChild(d);
+  return d;
+}
+
+// ========== PENDIDIKAN ==========
+function addPendidikan() {
+  const n = el('pendidikanContainer').children.length + 1;
+  addBlock('pendidikanContainer', `
+    <div class="grid-2" style="margin-bottom:10px">
+      <div class="form-group">
+        <label>Dari (Bulan/Tahun)</label>
+        <input type="month" class="pDari">
+      </div>
+      <div class="form-group">
+        <label>Sampai (Bulan/Tahun)</label>
+        <input type="month" class="pSampai">
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group col-span-2" style="grid-column:span 1">
+        <label>Nama Sekolah / Institusi</label>
+        <input type="text" class="pNama" placeholder="SMA Negeri 1 Jakarta">
+      </div>
+      <div class="form-group">
+        <label>Jenjang</label>
+        <select class="pJenjang">
+          <option value="">Pilih</option>
+          <option>SD</option><option>SMP</option><option>SMA/SMK</option>
+          <option>D1</option><option>D2</option><option>D3</option><option>D4</option>
+          <option>S1</option><option>S2</option><option>S3</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:10px">
+      <label>Jurusan / Program Studi</label>
+      <input type="text" class="pJurusan" placeholder="Teknik Informatika">
+    </div>`, `Pendidikan #${n}`);
+}
+
+// ========== KERJA ==========
+function addKerja() {
+  const n = el('kerjaContainer').children.length + 1;
+  addBlock('kerjaContainer', `
+    <div class="grid-2" style="margin-bottom:10px">
+      <div class="form-group">
+        <label>Dari (Bulan/Tahun)</label>
+        <input type="month" class="kDari">
+      </div>
+      <div class="form-group">
+        <label>Sampai (Bulan/Tahun)</label>
+        <input type="month" class="kSampai">
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:10px">
+      <div class="form-group">
+        <label>Nama Perusahaan</label>
+        <input type="text" class="kPerusahaan" placeholder="PT. Maju Bersama">
+      </div>
+      <div class="form-group">
+        <label>Bidang Kerja</label>
+        <input type="text" class="kBidang" placeholder="Manufaktur, IT, Hospitality...">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Jabatan / Posisi</label>
+        <input type="text" class="kJabatan" placeholder="Staff Produksi">
+      </div>
+      <div class="form-group">
+        <label>Lama Kerja</label>
+        <input type="text" class="kLama" placeholder="2 tahun 3 bulan">
+      </div>
+    </div>`, `Pengalaman Kerja #${n}`);
+}
+
+// ========== KELUARGA ==========
+function addKeluarga(hubungan = '', nama = '', umur = '', pekerjaan = '', gaji = '') {
+  const n = el('keluargaContainer').children.length + 1;
+  addBlock('keluargaContainer', `
+    <div class="grid-2" style="margin-bottom:10px">
+      <div class="form-group">
+        <label>Hubungan</label>
+        <select class="kHub">
+          <option value="">Pilih</option>
+          <option ${hubungan=='Ayah'?'selected':''}>Ayah</option>
+          <option ${hubungan=='Ibu'?'selected':''}>Ibu</option>
+          <option ${hubungan=='Suami'?'selected':''}>Suami</option>
+          <option ${hubungan=='Istri'?'selected':''}>Istri</option>
+          <option ${hubungan=='Kakak'?'selected':''}>Kakak</option>
+          <option ${hubungan=='Adik'?'selected':''}>Adik</option>
+          <option ${hubungan=='Anak'?'selected':''}>Anak</option>
+          <option ${hubungan=='Lainnya'?'selected':''}>Lainnya</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nama Lengkap</label>
+        <input type="text" class="kNama" value="${nama}" placeholder="Nama anggota keluarga">
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group">
+        <label>Umur</label>
+        <input type="number" class="kUmur" value="${umur}" placeholder="45">
+      </div>
+      <div class="form-group">
+        <label>Pekerjaan</label>
+        <input type="text" class="kPekerjaan" value="${pekerjaan}" placeholder="Wiraswasta">
+      </div>
+      <div class="form-group">
+        <label>Penghasilan (Rp)</label>
+        <input type="text" class="kGaji" value="${gaji}" placeholder="5.000.000">
+      </div>
+    </div>`, `Anggota Keluarga #${n}`);
+}
+
+// ========== FOTO ==========
+let fotoDataURL = null;
+el('fotoInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    fotoDataURL = e.target.result;
+    el('fotoPreview').innerHTML = `<img src="${fotoDataURL}" alt="Preview">`;
+  };
+  reader.readAsDataURL(file);
+});
+
+// ========== COLLECT DATA ==========
+function collectData() {
+  const pendidikan = [], kerja = [], keluarga = [];
+
+  el('pendidikanContainer').querySelectorAll('.entry-block').forEach(b => {
+    pendidikan.push({
+      dari: b.querySelector('.pDari')?.value,
+      sampai: b.querySelector('.pSampai')?.value,
+      nama: b.querySelector('.pNama')?.value,
+      jenjang: b.querySelector('.pJenjang')?.value,
+      jurusan: b.querySelector('.pJurusan')?.value,
     });
+  });
 
-    // Preview foto
-    document.getElementById('foto').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        const preview = document.getElementById('fotoPreview');
-        
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.innerHTML = `<img src="${e.target.result}" alt="Preview" class="foto-preview">`;
-            };
-            reader.readAsDataURL(file);
-        } else {
-            document.getElementById('fotoPreview').innerHTML = '';
-        }
+  el('kerjaContainer').querySelectorAll('.entry-block').forEach(b => {
+    kerja.push({
+      dari: b.querySelector('.kDari')?.value,
+      sampai: b.querySelector('.kSampai')?.value,
+      perusahaan: b.querySelector('.kPerusahaan')?.value,
+      bidang: b.querySelector('.kBidang')?.value,
+      jabatan: b.querySelector('.kJabatan')?.value,
+      lama: b.querySelector('.kLama')?.value,
     });
+  });
 
-    // Tambah keluarga
-    document.getElementById('tambahKeluarga').addEventListener('click', function() {
-        const hubungan = prompt('Hubungan keluarga (Kakak/Adik/Lainnya):') || 'Lainnya';
-        tambahKeluargaItem(hubungan, '');
+  el('keluargaContainer').querySelectorAll('.entry-block').forEach(b => {
+    keluarga.push({
+      hubungan: b.querySelector('.kHub')?.value,
+      nama: b.querySelector('.kNama')?.value,
+      umur: b.querySelector('.kUmur')?.value,
+      pekerjaan: b.querySelector('.kPekerjaan')?.value,
+      gaji: b.querySelector('.kGaji')?.value,
     });
+  });
 
-    // Fungsi tambah item keluarga
-    function tambahKeluargaItem(hubungan, nama, index = null) {
-        const div = document.createElement('div');
-        div.className = 'keluarga-item';
-        div.innerHTML = `
-            <h4>${hubungan}</h4>
-            <input type="hidden" name="keluargaHubungan[]" value="${hubungan}">
-            <input type="text" name="keluargaNama[]" placeholder="Nama ${hubungan}" value="${nama}">
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()">❌</button>
-        `;
-        keluargaContainer.appendChild(div);
-    }
+  return {
+    namaHiragana: el('namaHiragana').value,
+    namaRomaji: el('namaRomaji').value,
+    jenisKelamin: el('jenisKelamin').value,
+    statusMenikah: el('statusMenikah').value,
+    golDarah: el('golDarah').value,
+    kewarganegaraan: el('kewarganegaraan').value,
+    tanggalLahir: el('tanggalLahir').value,
+    agama: el('agama').value,
+    tinggiBadan: el('tinggiBadan').value,
+    beratBadan: el('beratBadan').value,
+    matKiri: el('matKiri').value,
+    matKanan: el('matKanan').value,
+    kemampuanJepang: el('kemampuanJepang').value,
+    tempatLahir: el('tempatLahir').value,
+    alamatLengkap: el('alamatLengkap').value,
+    hobi: el('hobi').value,
+    targetGaji: el('targetGaji').value,
+    catatan: el('catatan').value,
+    selfPR: el('selfPR').value,
+    pendidikan, kerja, keluarga,
+  };
+}
 
-    // Submit form - Generate PDF
-    document.getElementById('jepangForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Ambil semua data
-        const formData = new FormData(this);
-        const data = {};
-        for (let [key, value] of formData.entries()) {
-            if (key === 'keluargaHubungan[]' || key === 'keluargaNama[]') {
-                if (!data[key]) data[key] = [];
-                data[key].push(value);
-            } else {
-                data[key] = value;
-            }
-        }
+// ========== PDF GENERATION ==========
+function generatePDF() {
+  const d = collectData();
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
 
-        // Generate PDF
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        
-        // Header
-        doc.setFontSize(20);
-        doc.text('FORMULIR PENDAFTARAN JEPANG', 20, 20);
-        
-        // Data pribadi
-        doc.setFontSize(12);
-        let y = 40;
-        doc.text(`Nama: ${data.namaRomaji || ''}`, 20, y); y += 10;
-        doc.text(`Jenis Kelamin: ${data.jenisKelamin || ''}`, 20, y); y += 10;
-        doc.text(`Status: ${data.statusMenikah || ''}`, 20, y); y += 10;
-        doc.text(`Tempat Lahir: ${data.tempatLahir || ''}`, 20, y); y += 10;
-        doc.text(`Alamat: ${data.alamatLengkap || ''}`, 20, y); y += 15;
-        
-        // Keluarga
-        doc.text('DATA KELUARGA:', 20, y); y += 10;
-        if (data.keluargaHubungan) {
-            for (let i = 0; i < data.keluargaHubungan.length; i++) {
-                doc.text(`${data.keluargaHubungan[i]}: ${data.keluargaNama[i] || ''}`, 30, y);
-                y += 8;
-            }
-        }
-        
-        // Download PDF
-        doc.save('pendaftaran-jepang.pdf');
-        
-        // Show success
-        document.getElementById('successMessage').style.display = 'block';
-        setTimeout(() => {
-            document.getElementById('successMessage').style.display = 'none';
-        }, 3000);
+  const W = 210, M = 15;
+  const lineW = W - M * 2;
+  let y = 0;
+
+  // Color helpers
+  const RED = [192, 57, 43];
+  const DARK = [26, 26, 26];
+  const GRAY = [100, 100, 100];
+  const LGRAY = [220, 220, 220];
+  const SURFACE = [250, 250, 250];
+
+  function setColor(rgb, type = 'text') {
+    if (type === 'fill') doc.setFillColor(...rgb);
+    else doc.setTextColor(...rgb);
+  }
+
+  function newPage() {
+    doc.addPage();
+    y = 18;
+  }
+
+  function checkY(needed = 10) {
+    if (y + needed > 275) newPage();
+  }
+
+  function line(x1, y1, x2, y2, color = LGRAY, lw = 0.3) {
+    doc.setDrawColor(...color);
+    doc.setLineWidth(lw);
+    doc.line(x1, y1, x2, y2);
+  }
+
+  function sectionHeader(title) {
+    checkY(14);
+    doc.setFillColor(...RED);
+    doc.rect(M, y, lineW, 8, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(255, 255, 255);
+    doc.text(title.toUpperCase(), M + 4, y + 5.5);
+    y += 11;
+    doc.setTextColor(...DARK);
+  }
+
+  function row(label, value, x = M, w = lineW) {
+    checkY(8);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...GRAY);
+    doc.text(label, x + 2, y + 4);
+    doc.setTextColor(...DARK);
+    doc.setFont('helvetica', 'bold');
+    const valX = x + w * 0.38;
+    const valStr = value || '—';
+    const lines = doc.splitTextToSize(valStr, w - (valX - x) - 4);
+    doc.text(lines, valX, y + 4);
+    line(x, y, x + w, y, LGRAY, 0.2);
+    y += lines.length > 1 ? 5.5 * lines.length : 7;
+  }
+
+  function twoRows(pairs) {
+    const hw = lineW / 2;
+    const left = pairs[0], right = pairs[1];
+    const xL = M, xR = M + hw + 2;
+    const startY = y;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...GRAY);
+    doc.text(left[0], xL + 2, y + 4);
+    doc.text(right[0], xR + 2, y + 4);
+
+    doc.setTextColor(...DARK);
+    doc.setFont('helvetica', 'bold');
+    doc.text(left[1] || '—', xL + hw * 0.42, y + 4);
+    doc.text(right[1] || '—', xR + hw * 0.42, y + 4);
+
+    line(xL, y, xL + hw, y, LGRAY, 0.2);
+    line(xR, y, xR + hw, y, LGRAY, 0.2);
+    y += 7;
+  }
+
+  function wrappedRow(label, value) {
+    if (!value) return;
+    checkY(12);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...GRAY);
+    doc.text(label, M + 2, y + 5);
+    y += 7;
+    doc.setTextColor(...DARK);
+    const lines = doc.splitTextToSize(value, lineW - 4);
+    lines.forEach(l => {
+      checkY(6);
+      doc.setFont('helvetica', 'normal');
+      doc.text(l, M + 2, y + 4);
+      y += 5.5;
     });
+    y += 2;
+  }
 
-    // Reset form
-    document.getElementById('clearForm').addEventListener('click', function() {
-        document.getElementById('jepangForm').reset();
-        document.getElementById('fotoPreview').innerHTML = '';
-        document.getElementById('keluargaContainer').innerHTML = '';
-        // Tambah ulang default keluarga
-        tambahKeluargaItem('Ayah', '');
-        tambahKeluargaItem('Ibu', '');
+  // ===== COVER HEADER =====
+  // Red top bar
+  doc.setFillColor(...RED);
+  doc.rect(0, 0, W, 40, 'F');
+
+  // White title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.setTextColor(255, 255, 255);
+  doc.text('FORMULIR PENDAFTARAN', M, 17);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(255, 220, 220);
+  doc.text('Prime Tekipaki Raya  |  日本留学支援', M, 25);
+  doc.setFontSize(8.5);
+  doc.text('Form Pendaftaran Kerja Jepang', M, 32);
+
+  // Date
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  const today = new Date().toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+  doc.text('Tanggal: ' + today, W - M, 32, { align: 'right' });
+
+  // Photo box
+  const photoX = W - M - 30, photoY = 4, photoW = 25, photoH = 32;
+  if (fotoDataURL) {
+    try {
+      const fmt = fotoDataURL.substring(11, fotoDataURL.indexOf(';')).toUpperCase();
+      doc.addImage(fotoDataURL, fmt, photoX, photoY, photoW, photoH);
+      doc.setDrawColor(255, 255, 255);
+      doc.setLineWidth(0.8);
+      doc.rect(photoX, photoY, photoW, photoH);
+    } catch(e) {}
+  } else {
+    doc.setFillColor(150, 30, 20);
+    doc.rect(photoX, photoY, photoW, photoH, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(7);
+    doc.text('Pas Foto', photoX + photoW / 2, photoY + photoH / 2, { align: 'center' });
+  }
+
+  y = 48;
+
+  // ===== DATA PRIBADI =====
+  sectionHeader('Data Pribadi');
+  row('Nama (Hiragana)', d.namaHiragana);
+  row('Nama (Romaji)', d.namaRomaji);
+  twoRows([['Jenis Kelamin', d.jenisKelamin], ['Status Menikah', d.statusMenikah]]);
+  twoRows([['Golongan Darah', d.golDarah], ['Kewarganegaraan', d.kewarganegaraan]]);
+  twoRows([['Tanggal Lahir', d.tanggalLahir], ['Agama', d.agama]]);
+  twoRows([['Tinggi Badan', d.tinggiBadan ? d.tinggiBadan + ' cm' : ''], ['Berat Badan', d.beratBadan ? d.beratBadan + ' kg' : '']]);
+  twoRows([['Penglihatan Kiri', d.matKiri], ['Penglihatan Kanan', d.matKanan]]);
+  row('Kemampuan Bahasa Jepang', d.kemampuanJepang);
+
+  // ===== ALAMAT =====
+  checkY(8);
+  y += 3;
+  sectionHeader('Alamat');
+  row('Tempat Lahir', d.tempatLahir);
+  row('Alamat Lengkap', d.alamatLengkap);
+
+  // ===== PENDIDIKAN =====
+  if (d.pendidikan.length > 0) {
+    checkY(16);
+    y += 3;
+    sectionHeader('Riwayat Pendidikan');
+
+    // Table header
+    doc.setFillColor(...SURFACE);
+    doc.rect(M, y, lineW, 7, 'F');
+    line(M, y, M + lineW, y, LGRAY, 0.3);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...GRAY);
+    const pCols = [M+2, M+32, M+82, M+110, M+145];
+    ['Periode', 'Jenjang', 'Nama Sekolah', 'Jurusan', ''].forEach((h, i) => {
+      if (pCols[i]) doc.text(h, pCols[i], y + 4.5);
     });
+    y += 7;
+
+    d.pendidikan.forEach(p => {
+      checkY(8);
+      line(M, y, M + lineW, y, LGRAY, 0.15);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...DARK);
+      const periode = [p.dari, p.sampai].filter(Boolean).join(' – ') || '—';
+      doc.text(periode, pCols[0], y + 5);
+      doc.text(p.jenjang || '—', pCols[1], y + 5);
+      const namaLines = doc.splitTextToSize(p.nama || '—', 48);
+      doc.text(namaLines, pCols[2], y + 5);
+      doc.text(p.jurusan || '—', pCols[3], y + 5);
+      y += Math.max(7, namaLines.length * 5.5);
+    });
+    line(M, y, M + lineW, y, LGRAY, 0.3);
+  }
+
+  // ===== PENGALAMAN KERJA =====
+  if (d.kerja.length > 0) {
+    checkY(16);
+    y += 6;
+    sectionHeader('Pengalaman Kerja');
+
+    d.kerja.forEach((k, i) => {
+      checkY(28);
+      const boxH = 22;
+      doc.setFillColor(...SURFACE);
+      doc.rect(M, y, lineW, boxH, 'F');
+      line(M, y, M, y + boxH, RED, 1.5);
+      line(M, y, M + lineW, y, LGRAY, 0.2);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...DARK);
+      const periode = [k.dari, k.sampai].filter(Boolean).join(' – ');
+      doc.text(`${i + 1}. ${k.perusahaan || '(Nama Perusahaan)'}`, M + 4, y + 5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...GRAY);
+      doc.setFontSize(7.5);
+      doc.text(periode || '—', M + 4, y + 10);
+      doc.text(`Bidang: ${k.bidang || '—'}`, M + 4, y + 14.5);
+      doc.text(`Jabatan: ${k.jabatan || '—'}`, M + 80, y + 14.5);
+      doc.text(`Lama: ${k.lama || '—'}`, M + 4, y + 19);
+      y += boxH + 3;
+    });
+  }
+
+  // ===== KELUARGA =====
+  if (d.keluarga.length > 0) {
+    checkY(16);
+    y += 3;
+    sectionHeader('Data Keluarga');
+
+    // Table header
+    doc.setFillColor(...SURFACE);
+    doc.rect(M, y, lineW, 7, 'F');
+    line(M, y, M + lineW, y, LGRAY, 0.3);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...GRAY);
+    const kCols = [M+2, M+28, M+90, M+120, M+155];
+    ['Hubungan', 'Nama', 'Umur', 'Pekerjaan', 'Penghasilan'].forEach((h, i) => {
+      doc.text(h, kCols[i], y + 4.5);
+    });
+    y += 7;
+
+    d.keluarga.forEach(k => {
+      checkY(8);
+      line(M, y, M + lineW, y, LGRAY, 0.15);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(...DARK);
+      const nm = doc.splitTextToSize(k.nama || '—', 58);
+      doc.text(k.hubungan || '—', kCols[0], y + 5);
+      doc.text(nm, kCols[1], y + 5);
+      doc.text(k.umur ? k.umur + ' th' : '—', kCols[2], y + 5);
+      doc.text(k.pekerjaan || '—', kCols[3], y + 5);
+      doc.text(k.gaji ? 'Rp ' + k.gaji : '—', kCols[4], y + 5);
+      y += Math.max(7, nm.length * 5.5);
+    });
+    line(M, y, M + lineW, y, LGRAY, 0.3);
+  }
+
+  // ===== TAMBAHAN =====
+  checkY(16);
+  y += 6;
+  sectionHeader('Informasi Tambahan');
+  twoRows([['Hobi', d.hobi], ['Target Gaji', d.targetGaji ? '¥ ' + d.targetGaji + ' / bulan' : '']]);
+  wrappedRow('Catatan', d.catatan);
+
+  // ===== SELF PR =====
+  if (d.selfPR) {
+    checkY(16);
+    y += 3;
+    sectionHeader('Self PR');
+    checkY(12);
+    doc.setFillColor(252, 248, 248);
+    const prLines = doc.splitTextToSize(d.selfPR, lineW - 8);
+    const prH = prLines.length * 5 + 8;
+    checkY(prH);
+    doc.rect(M, y, lineW, prH, 'F');
+    line(M, y, M, y + prH, RED, 2);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...DARK);
+    prLines.forEach((l, i) => {
+      doc.text(l, M + 6, y + 6 + i * 5);
+    });
+    y += prH + 4;
+  }
+
+  // ===== SIGNATURE =====
+  checkY(30);
+  y += 8;
+  line(M, y, M + lineW, y, LGRAY, 0.3);
+  y += 6;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...GRAY);
+  doc.text('Dengan ini saya menyatakan bahwa data yang tercantum di atas adalah benar dan dapat dipertanggungjawabkan.', M, y);
+  y += 16;
+  doc.text('Jakarta, ' + today, W - M - 35, y);
+  y += 20;
+  doc.text('(                                    )', W - M - 47, y);
+  y += 5;
+  doc.text(d.namaRomaji || 'Nama Peserta', W - M - 37, y, { align: 'center' });
+
+  // ===== FOOTER on all pages =====
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(...RED);
+    doc.rect(0, 290, W, 7, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Prime Tekipaki Raya  |  Formulir Pendaftaran Jepang', M, 294.5);
+    doc.text(`Halaman ${i} dari ${pageCount}`, W - M, 294.5, { align: 'right' });
+  }
+
+  const safeName = (d.namaRomaji || 'peserta').replace(/\s+/g, '_').toLowerCase();
+  doc.save(`pendaftaran_${safeName}.pdf`);
+
+  const toast = el('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+  // Default pendidikan
+  addPendidikan();
+
+  // Default keluarga
+  addKeluarga('Ayah');
+  addKeluarga('Ibu');
+
+  el('tambahPendidikan').onclick = addPendidikan;
+  el('tambahKerja').onclick = addKerja;
+  el('tambahKeluarga').onclick = () => addKeluarga();
+  el('btnPDF').onclick = generatePDF;
+
+  el('btnReset').onclick = () => {
+    if (!confirm('Reset semua data form?')) return;
+    el('mainForm').reset();
+    el('pendidikanContainer').innerHTML = '';
+    el('kerjaContainer').innerHTML = '';
+    el('keluargaContainer').innerHTML = '';
+    el('fotoPreview').innerHTML = '';
+    fotoDataURL = null;
+    addPendidikan();
+    addKeluarga('Ayah');
+    addKeluarga('Ibu');
+  };
 });
 </script>
 </body>
